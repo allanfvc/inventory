@@ -4,7 +4,11 @@ import './header.css'
 const Header: React.FC = (props) => {
   return (
     <header>
-      <nav>Inventário</nav>
+      <nav className="navbar navbar-dark bg-primary">
+      <div className="container-fluid">
+        Inventário
+      </div>
+      </nav>
     </header>
   );
 }

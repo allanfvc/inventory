@@ -1,7 +1,8 @@
 package api
 
 import (
-	"os"
+	"github.com/allanfvc/inventory/api/controller"
+	"github.com/allanfvc/inventory/api/database"
 
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/fiber/middleware"
@@ -10,6 +11,11 @@ import (
 //StartAPI Inicializa a api
 func StartAPI() {
 	app := fiber.New()
-	app.Use(middleware.Logger("${time} ${method} ${path} - ${ip} - ${status} - ${latency}\n", os.Stdout, "15:04:05"))
+	database.InitDatabase()
+	defer database.CloseDatabase()
+	app.Static("/inventory-ui", "./public")
+	app.Use(middleware.Logger())
+	api := app.Group("/v1")
+	controller.RegisterRoutes(api)
 	app.Listen(4000)
 }
